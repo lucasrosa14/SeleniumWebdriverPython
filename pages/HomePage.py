@@ -7,6 +7,7 @@ class HomePage(BasePage):
 
     def __init__(self):
         self.driver = conftest.driver
+
         self.pageTitle = (By.XPATH, "//span[@class='title']")
         self.inventoryItem = (By.XPATH, "//*[@class='inventory_item_name' and text()='{}']")
         self.addToCartButton = (By.XPATH, "//*[text()='Add to cart']")

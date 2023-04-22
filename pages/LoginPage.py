@@ -17,6 +17,8 @@ class LoginPage(BasePage):
         self.fillField(self.passwordField, password)
         self.click(self.loginButton)
 
+        # Login pressing ENTER
+        # self.pressKey(self.passwordField, "ENTER")
 
     def checkLoginError(self):
         self.checkIfExists(self.errorMessageLogin)

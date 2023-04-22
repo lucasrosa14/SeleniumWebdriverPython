@@ -11,6 +11,9 @@ class TestCT01:
         loginPage = LoginPage()
         homePage = HomePage()
 
-        loginPage.doLogin("standard_user", "secret_sauce")
+        username = "standard_user"
+        password = "secret_sauce"
+
+        loginPage.doLogin(username, password)
         homePage.checkLoginSuccessful()
 

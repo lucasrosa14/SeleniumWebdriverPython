@@ -1,7 +1,4 @@
-import time
-
 import pytest
-from selenium.webdriver.common.by import By
 import conftest
 from pages.CartPage import CartPage
 from pages.HomePage import HomePage
@@ -18,23 +15,28 @@ class TestCT03:
         homePage = HomePage()
         cartPage = CartPage()
 
+        username = "standard_user"
+        password = "secret_sauce"
+        productOne = "Sauce Labs Backpack"
+        productTwo = "Sauce Labs Bike Light"
+
         #Login
-        loginPage.doLogin("standard_user", "secret_sauce")
+        loginPage.doLogin(username, password)
 
         #Add Backpack to cart
-        homePage.addProductToCart("Sauce Labs Backpack")
+        homePage.addProductToCart(productOne)
 
         #Check cart
         homePage.accessCart()
-        cartPage.checkProductExistsOnCart("Sauce Labs Backpack")
+        cartPage.checkProductExistsOnCart(productOne)
 
         #Click to back
         cartPage.continueShopping()
 
         #Add Bike Light to cart
-        homePage.addProductToCart("Sauce Labs Bike Light")
+        homePage.addProductToCart(productTwo)
 
         #Check cart 2
         homePage.accessCart()
-        cartPage.checkProductExistsOnCart("Sauce Labs Backpack")
-        cartPage.checkProductExistsOnCart("Sauce Labs Bike Light")
+        cartPage.checkProductExistsOnCart(productOne)
+        cartPage.checkProductExistsOnCart(productTwo)

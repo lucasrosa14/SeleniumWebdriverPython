@@ -1,6 +1,13 @@
+import time
+
 import pytest
 from selenium.webdriver.common.by import By
 import conftest
+from pages.CartPage import CartPage
+from pages.CheckoutPage import CheckoutPage
+from pages.HomePage import HomePage
+from pages.LoginPage import LoginPage
+from pages.PaymentPage import PaymentPage
 
 
 @pytest.mark.usefixtures("setup_teardown")
@@ -8,28 +15,37 @@ import conftest
 @pytest.mark.smoke
 class TestCT04:
     def test_ct04_checkoutOneProduct(self):
-        driver = conftest.driver
+        loginPage = LoginPage()
+        homePage = HomePage()
+        cartPage = CartPage()
+        checkoutPage = CheckoutPage()
+        paymentPage = PaymentPage()
+
+        username = "standard_user"
+        password = "secret_sauce"
+        firstName = "Lucas"
+        lastName = "Rosa"
+        postalCode = "88780-000"
+        productOne = "Sauce Labs Backpack"
+        expectedSuccessfulMessage = "Thank you for your order!"
+
         #Login
-        driver.find_element(By.ID, "user-name").send_keys("standard_user")
-        driver.find_element(By.ID, "password").send_keys("secret_sauce")
-        driver.find_element(By.ID, "login-button").click()
-        assert driver.find_element(By.XPATH, "//span[@class='title']").is_displayed()
+        loginPage.doLogin(username, password)
+        homePage.checkLoginSuccessful()
 
         #Add Backpack to cart
-        driver.find_element(By.XPATH, "//*[@class='inventory_item_name' and text()='Sauce Labs Backpack']").click()
-        driver.find_element(By.XPATH, "//*[text()='Add to cart']").click()
+        homePage.addProductToCart(productOne)
 
         #Check cart
-        driver.find_element(By.XPATH, "//*[@class='shopping_cart_link']").click()
-        assert driver.find_element(By.XPATH, "//*[@class='inventory_item_name' and text()='Sauce Labs Backpack']").is_displayed()
+        homePage.accessCart()
+        cartPage.checkProductExistsOnCart(productOne)
 
         #Checkout
-        driver.find_element(By.ID, "checkout").click()
-        driver.find_element(By.ID, "first-name").send_keys("Lucas")
-        driver.find_element(By.ID, "last-name").send_keys("Rosa")
-        driver.find_element(By.ID, "postal-code").send_keys("88780-000")
-        driver.find_element(By.ID, "continue").click()
-        assert driver.find_element(By.XPATH, "//*[@class='inventory_item_name' and text()='Sauce Labs Backpack']").is_displayed()
-        driver.find_element(By.ID, "finish").click()
-        assert driver.find_element(By.XPATH, "//*[@class='complete-header']").is_displayed()
+        cartPage.proceedToCheckout()
+        checkoutPage.fillShippingInformation(firstName, lastName, postalCode)
+        checkoutPage.clickContinueButton()
+        paymentPage.checkProductExistsPaymentPage(productOne)
+        paymentPage.clickFinishButton()
+        paymentPage.checkSuccessfulMessage(expectedSuccessfulMessage)
+
 

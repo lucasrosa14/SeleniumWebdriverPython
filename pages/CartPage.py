@@ -9,6 +9,7 @@ class CartPage(BasePage):
         self.driver = conftest.driver
         self.inventoryItem = (By.XPATH, "//*[@class='inventory_item_name' and text()='{}']")
         self.continueShoppingButton = (By.ID, "continue-shopping")
+        self.checkoutButton = (By.ID, "checkout")
 
     def checkProductExistsOnCart(self, itemName):
         item = (self.inventoryItem[0], self.inventoryItem[1].format(itemName))
@@ -16,3 +17,6 @@ class CartPage(BasePage):
 
     def continueShopping(self):
         self.click(self.continueShoppingButton)
+
+    def proceedToCheckout(self):
+        self.click(self.checkoutButton)
