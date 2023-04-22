@@ -20,3 +20,7 @@ class LoginPage(BasePage):
 
     def checkLoginError(self):
         self.checkIfExists(self.errorMessageLogin)
+
+    def checkLoginErrorMessage(self, expectedText):
+        foundText = self.getElementText(self.errorMessageLogin)
+        assert foundText == expectedText, f"The returned text was '{foundText}', but the expected text was '{expectedText}'. "

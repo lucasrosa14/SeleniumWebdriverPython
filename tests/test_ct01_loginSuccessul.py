@@ -10,5 +10,7 @@ class TestCT01:
     def test_ct01_loginSuccessul(self):
         loginPage = LoginPage()
         homePage = HomePage()
+
         loginPage.doLogin("standard_user", "secret_sauce")
         homePage.checkLoginSuccessful()
+
