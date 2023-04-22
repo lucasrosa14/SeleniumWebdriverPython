@@ -1,6 +1,5 @@
 import pytest
-from selenium.webdriver.common.by import By
-import conftest
+from pages.HomePage import HomePage
 from pages.LoginPage import LoginPage
 
 
@@ -9,9 +8,7 @@ from pages.LoginPage import LoginPage
 @pytest.mark.smoke
 class TestCT01:
     def test_ct01_loginSuccessul(self):
-        driver = conftest.driver
         loginPage = LoginPage()
+        homePage = HomePage()
         loginPage.doLogin("standard_user", "secret_sauce")
-        assert driver.find_element(By.XPATH, "//span[@class='title']").is_displayed()
-
-
+        homePage.checkLoginSuccessful()
