@@ -20,3 +20,6 @@ class BasePage:
 
     def checkIfExists(self, locator):
         assert self.findElement(locator).is_displayed(), f"The element '{locator}' is not present in this page."
+
+    def getElementText(self, locator):
+        return self.findElement(locator).text
