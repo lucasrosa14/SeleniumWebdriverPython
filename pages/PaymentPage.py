@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+
 import conftest
 from pages.BasePage import BasePage
 
@@ -22,8 +23,6 @@ class PaymentPage(BasePage):
     def checkSuccessfulMessage(self, expectedText):
         foundText = self.getElementText(self.thanksMessage)
         assert foundText == expectedText, f"The returned text was '{foundText}', but the expected text was '{expectedText}'. "
-
-
 
         # assert driver.find_element(By.XPATH, "//*[@class='inventory_item_name' and text()='Sauce Labs Backpack']").is_displayed()
         # driver.find_element(By.ID, "finish").click()

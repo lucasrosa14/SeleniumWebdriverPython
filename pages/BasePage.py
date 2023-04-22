@@ -1,7 +1,6 @@
+from selenium.webdriver import Keys
+
 import conftest
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver import ActionChains, Keys
 
 
 class BasePage:

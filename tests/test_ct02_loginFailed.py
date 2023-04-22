@@ -1,4 +1,5 @@
 import pytest
+
 from pages.LoginPage import LoginPage
 
 
@@ -7,7 +8,6 @@ from pages.LoginPage import LoginPage
 @pytest.mark.smoke
 class TestCT02:
     def test_ct02_loginFailed(self):
-
         loginPage = LoginPage()
 
         expectedErrorMessage = "Epic sadface: Username and password do not match any user in this service"
@@ -17,9 +17,3 @@ class TestCT02:
         loginPage.doLogin(username, password)
         loginPage.checkLoginError()
         loginPage.checkLoginErrorMessage(expectedErrorMessage)
-
-
-
-
-
-

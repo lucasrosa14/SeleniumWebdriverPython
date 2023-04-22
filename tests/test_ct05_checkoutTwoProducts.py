@@ -1,48 +1,59 @@
 import pytest
-from selenium.webdriver.common.by import By
-import conftest
+
+from pages.CartPage import CartPage
+from pages.CheckoutPage import CheckoutPage
+from pages.HomePage import HomePage
+from pages.LoginPage import LoginPage
+from pages.PaymentPage import PaymentPage
 
 
 @pytest.mark.usefixtures("setup_teardown")
-@pytest.mark.login
+@pytest.mark.checkout
 @pytest.mark.smoke
 class TestCT05:
     def test_ct05_checkoutTwoProducts(self):
-        driver = conftest.driver
-        #Login
-        driver.find_element(By.ID, "user-name").send_keys("standard_user")
-        driver.find_element(By.ID, "password").send_keys("secret_sauce")
-        driver.find_element(By.ID, "login-button").click()
-        assert driver.find_element(By.XPATH, "//span[@class='title']").is_displayed()
+        loginPage = LoginPage()
+        homePage = HomePage()
+        cartPage = CartPage()
+        checkoutPage = CheckoutPage()
+        paymentPage = PaymentPage()
 
-        #Add Backpack to cart
-        driver.find_element(By.XPATH, "//*[@class='inventory_item_name' and text()='Sauce Labs Backpack']").click()
-        driver.find_element(By.XPATH, "//*[text()='Add to cart']").click()
+        username = "standard_user"
+        password = "secret_sauce"
+        firstName = "Lucas"
+        lastName = "Rosa"
+        postalCode = "88780-000"
+        productOne = "Sauce Labs Backpack"
+        productTwo = "Sauce Labs Bike Light"
+        expectedSuccessfulMessage = "Thank you for your order!"
 
-        #Check cart
-        driver.find_element(By.XPATH, "//*[@class='shopping_cart_link']").click()
-        assert driver.find_element(By.XPATH, "//*[@class='inventory_item_name' and text()='Sauce Labs Backpack']").is_displayed()
+        # Login
+        loginPage.doLogin(username, password)
+        homePage.checkLoginSuccessful()
 
-        #Click to back
-        driver.find_element(By.ID, "continue-shopping").click()
+        # Add Backpack to cart
+        homePage.addProductToCart(productOne)
 
-        #Add Bike Light to cart
-        driver.find_element(By.XPATH, "//*[@class='inventory_item_name' and text()='Sauce Labs Bike Light']").click()
-        driver.find_element(By.XPATH, "//*[text()='Add to cart']").click()
+        # Check cart
+        homePage.accessCart()
+        cartPage.checkProductExistsOnCart(productOne)
 
-        #Check cart 2
-        driver.find_element(By.XPATH, "//*[@class='shopping_cart_link']").click()
-        assert driver.find_element(By.XPATH, "//*[@class='inventory_item_name' and text()='Sauce Labs Backpack']").is_displayed()
-        assert driver.find_element(By.XPATH, "//*[@class='inventory_item_name' and text()='Sauce Labs Bike Light']").is_displayed()
+        # Click to back
+        cartPage.continueShopping()
 
-        #Checkout
-        driver.find_element(By.ID, "checkout").click()
-        driver.find_element(By.ID, "first-name").send_keys("Lucas")
-        driver.find_element(By.ID, "last-name").send_keys("Rosa")
-        driver.find_element(By.ID, "postal-code").send_keys("88780-000")
-        driver.find_element(By.ID, "continue").click()
-        assert driver.find_element(By.XPATH, "//*[@class='inventory_item_name' and text()='Sauce Labs Backpack']").is_displayed()
-        assert driver.find_element(By.XPATH, "//*[@class='inventory_item_name' and text()='Sauce Labs Bike Light']").is_displayed()
-        driver.find_element(By.ID, "finish").click()
-        assert driver.find_element(By.XPATH, "//*[@class='complete-header']").is_displayed()
+        # Add Bike Light to cart
+        homePage.addProductToCart(productTwo)
 
+        # Check cart 2
+        homePage.accessCart()
+        cartPage.checkProductExistsOnCart(productOne)
+        cartPage.checkProductExistsOnCart(productTwo)
+
+        # Checkout
+        cartPage.proceedToCheckout()
+        checkoutPage.fillShippingInformation(firstName, lastName, postalCode)
+        checkoutPage.clickContinueButton()
+        paymentPage.checkProductExistsPaymentPage(productOne)
+        paymentPage.checkProductExistsPaymentPage(productTwo)
+        paymentPage.clickFinishButton()
+        paymentPage.checkSuccessfulMessage(expectedSuccessfulMessage)
