@@ -10,9 +10,13 @@ class LoginPage(BasePage):
         self.usernameField = (By.ID, "user-name")
         self.passwordField = (By.ID, "password")
         self.loginButton = (By.ID, "login-button")
+        self.errorMessageLogin = (By.XPATH, "//*[@data-test='error']")
 
     def doLogin(self, username, password):
         self.fillField(self.usernameField, username)
         self.fillField(self.passwordField, password)
         self.click(self.loginButton)
 
+
+    def checkLoginError(self):
+        self.checkIfExists(self.errorMessageLogin)
