@@ -1,4 +1,5 @@
 import pytest
+
 from pages.HomePage import HomePage
 from pages.LoginPage import LoginPage
 
@@ -16,4 +17,3 @@ class TestCT01:
 
         loginPage.doLogin(username, password)
         homePage.checkLoginSuccessful()
-

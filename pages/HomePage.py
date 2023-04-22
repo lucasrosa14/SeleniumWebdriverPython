@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+
 import conftest
 from pages.BasePage import BasePage
 
@@ -23,4 +24,3 @@ class HomePage(BasePage):
 
     def accessCart(self):
         self.click(self.cartButton)
-

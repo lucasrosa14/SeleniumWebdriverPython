@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+
 import conftest
 from pages.BasePage import BasePage
 
@@ -20,4 +21,3 @@ class CheckoutPage(BasePage):
 
     def clickContinueButton(self):
         self.click(self.continueButton)
-

@@ -1,8 +1,5 @@
-import time
-
 import pytest
-from selenium.webdriver.common.by import By
-import conftest
+
 from pages.CartPage import CartPage
 from pages.CheckoutPage import CheckoutPage
 from pages.HomePage import HomePage
@@ -29,23 +26,21 @@ class TestCT04:
         productOne = "Sauce Labs Backpack"
         expectedSuccessfulMessage = "Thank you for your order!"
 
-        #Login
+        # Login
         loginPage.doLogin(username, password)
         homePage.checkLoginSuccessful()
 
-        #Add Backpack to cart
+        # Add Backpack to cart
         homePage.addProductToCart(productOne)
 
-        #Check cart
+        # Check cart
         homePage.accessCart()
         cartPage.checkProductExistsOnCart(productOne)
 
-        #Checkout
+        # Checkout
         cartPage.proceedToCheckout()
         checkoutPage.fillShippingInformation(firstName, lastName, postalCode)
         checkoutPage.clickContinueButton()
         paymentPage.checkProductExistsPaymentPage(productOne)
         paymentPage.clickFinishButton()
         paymentPage.checkSuccessfulMessage(expectedSuccessfulMessage)
-
-

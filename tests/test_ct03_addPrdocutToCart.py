@@ -1,4 +1,5 @@
 import pytest
+
 import conftest
 from pages.CartPage import CartPage
 from pages.HomePage import HomePage
@@ -20,23 +21,23 @@ class TestCT03:
         productOne = "Sauce Labs Backpack"
         productTwo = "Sauce Labs Bike Light"
 
-        #Login
+        # Login
         loginPage.doLogin(username, password)
 
-        #Add Backpack to cart
+        # Add Backpack to cart
         homePage.addProductToCart(productOne)
 
-        #Check cart
+        # Check cart
         homePage.accessCart()
         cartPage.checkProductExistsOnCart(productOne)
 
-        #Click to back
+        # Click to back
         cartPage.continueShopping()
 
-        #Add Bike Light to cart
+        # Add Bike Light to cart
         homePage.addProductToCart(productTwo)
 
-        #Check cart 2
+        # Check cart 2
         homePage.accessCart()
         cartPage.checkProductExistsOnCart(productOne)
         cartPage.checkProductExistsOnCart(productTwo)
